@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     
                     const likeButton = document.createElement('button');
                     likeButton.textContent = 'Like';
-                    likeButton.addEventListener('click', () => likeComment(comment.id));
-
+                    likeButton.addEventListener('click', () => likeComment(likeButton, comment.id));
+                    
                     const seeMoreButton = document.createElement('button');
                     seeMoreButton.textContent = 'See More';
                     seeMoreButton.addEventListener('click', () => seeMoreComment(comment.id));
@@ -45,6 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('Error fetching comments:', error);
             commentsList.textContent = 'Error fetching comments.';
         });
+        function likeComment(button, commentId) {
+            // Toggle the 'liked' class on the button
+            button.classList.toggle('liked');
+        }
 
 });
 
