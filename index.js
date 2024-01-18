@@ -1,107 +1,99 @@
 document.addEventListener("DOMContentLoaded", function () {
     const commentsList = document.getElementById('comments-list');
 
-    fetch(' http://localhost:3000/comments')
+    fetch('http://localhost:3000/comments')
         .then(response => response.json())
         .then(comments => {
-            if (comments.length > 0) {
-                // Displaying all comments
-                comments.forEach(comment => {
+            
+                // All the comments are displayed from the db.json
+                comments.forEach((comment,index) => {
                     const commentContainer = document.createElement('div');
                     commentContainer.classList.add('comment-container');
 
                     const commentElement = document.createElement('p');
                     commentElement.textContent = comment.body;
-
-                    const optionsDiv = document.createElement('div');
-                    optionsDiv.classList.add('options');
-                    
-                    const likeButton = document.createElement('button');
-                    likeButton.textContent = 'Like';
-                    likeButton.addEventListener('click', () => likeComment(likeButton, comment.id));
-                    
-                    const seeMoreButton = document.createElement('button');
-                    seeMoreButton.textContent = 'See More';
-                    seeMoreButton.addEventListener('click', () => seeMoreComment(comment.id));
-
-                    const optionsButton = document.createElement('button');
-                    optionsButton.textContent = 'Options';
-                    optionsButton.addEventListener('click', () => showOptions(comment.id));
-
-                    optionsDiv.appendChild(likeButton);
-                    optionsDiv.appendChild(seeMoreButton);
-                    optionsDiv.appendChild(optionsButton);
-
-                    commentContainer.appendChild(commentElement);
-                    commentContainer.appendChild(optionsDiv);
+                    commentElement.addEventListener('click', () => toggleComment(commentContainer,index));
 
                     commentsList.appendChild(commentContainer);
+                    commentContainer.appendChild(commentElement);
                 });
-            } else {
-                commentsList.textContent = 'No comments available.';
-            }
+           
         })
         .catch(error => {
             console.error('Error fetching comments:', error);
             commentsList.textContent = 'Error fetching comments.';
         });
-        function likeComment(button, commentId) {
-            // Toggle the 'liked' class on the button
-            button.classList.toggle('liked');
+
+        function toggleComment(commentContainer) {
+            // Toggle the 'clicked' class on the commentContainer
+            const buttons = commentContainer.querySelector('.options');
+            const buttonsVisible = buttons && buttons.classList.contains('show');
+        
+            // Toggle the 'clicked' class on the commentContainer
+            commentContainer.classList.toggle('clicked');
+            
+            // Show or hide options based on the visibility of buttons
+            if (buttonsVisible) {
+                hideButtons(commentContainer);
+            } else {
+                showButtons(commentContainer);
+            }
         }
+    
+        function showButtons(commentContainer,index) {
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.classList.add('options');
+    
+            const likeButton = document.createElement('button');
+            likeButton.textContent = 'Like';
+            likeButton.addEventListener('click', (event) => likeComment(likeButton, event));
+    
+            const seeUserDetailsButton = document.createElement('button');
+            seeUserDetailsButton.textContent = 'See Details';
+            seeUserDetailsButton.addEventListener('click', () => showUserDetails());
+    
+            const optionsButton = document.createElement('button');
+            optionsButton.textContent = 'Options';
+            optionsButton.addEventListener('click', () => toggleOptions(buttonsDiv));
+    
+            buttonsDiv.appendChild(likeButton);
+            buttonsDiv.appendChild(seeUserDetailsButton);
+            buttonsDiv.appendChild(optionsButton);
+    
+            // Append options div to comment container
+            commentContainer.appendChild(buttonsDiv);
+    
+            // Add 'show' class to make options div visible
+            buttonsDiv.classList.add('show');
+        }
+    
+        function hideButtons(commentContainer) {
+            // Find and remove the options div from the comment container
+            const buttonsDiv = commentContainer.querySelector('.options');
+            buttonsDiv.remove();
+        }
+    })
+    function likeComment(button, event) {
+        // Toggle the 'liked' class on the button
+        button.classList.toggle('liked');
 
-});
+        // Stop the event from propagating to prevent clicking the comment triggering this event
+        event.stopPropagation();
+    }
 
+    function showUserDetails() {
+        const userDetails=document.querySelector('#user-details')
+        fetch(`https://jsonplaceholder.typicode.com/users/${users.Id}`)
+            .then(response=>response.json())
+            .then(users=>{
+            userDetails.innerHTML = `
+                <p>User Details:</p>
+                <p>Name: ${users.name}</p>
+                <p>Email: ${users.email}</p>
+                <p>Phone: ${users.phone}</p>
+            `;
+                })
 
-
-        //     <button id="details-button">See More</button>
-        //     <button id="options-button">Options</button>
-        //     `;
-        //     commentsList.appendChild(eachComment);
-        //     const optionsButton=document.querySelector('#details-button')
-        //     optionsButton.addEventListener('click', () => showOptions())
-//         })
-//     }
-// })
-    // function showOptions(){ 
-    //     const options=document.createElement('div')
-    //     eachComment.appendChild(options)
-    //     options.id="options"
-    //     options.innerHTML=`
-    //     <p>Delete this Comment</p>
-    //     <p>Turn off comments from thi user</p>
-    //     `
-        
-    // }
-           
-            
-          
-            
-        
-           
-    //         const button=document.querySelector('#details-button')
-    //         button.addEventListener('click', () => showUserDetails(comment));
-            
-    //     };
-    // })
-
-//     function showUserDetails(comment) {
-//         console.log(comment)
-//         // fetch('https://jsonplaceholder.typicode.com/users')
-//         //         .then(response => response.json())
-//         //         .then(users => {
-//                     const userDetails=document.createElement('div')
-//                     userDetails.id='customer-details'
-//                     userDetails.innerHTML = `
-//                         <p>${comment.body}</p>
-//                         <p>By: ${comment.name}</p>
-//                         <p>Email: ${comment.email}</p>
-//                         <button id="like-btn">Like</button>
-//                         <button id="reply-btn">Reply</button>
-//                     `;
-//                     document.body.appendChild(userDetails)
+    }
 
     
-//     // })
-// }
-// });
