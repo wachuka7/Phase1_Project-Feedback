@@ -5,3 +5,22 @@
     background-color:blue;
     color: white;
 }
+
+.comment-container.clicked {
+    background-color: lightgrey;
+}
+
+.options {
+    display: none; 
+    flex-direction: row;
+}
+
+.options.show {
+    display: flex;
+}
+.options button {
+    margin: 5px o;
+}
+.read-comment {
+    opacity: 0.5;
+}
