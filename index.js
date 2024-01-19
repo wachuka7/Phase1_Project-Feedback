@@ -1,12 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     const commentsList = document.getElementById('comments-list');
 
-    fetch('http://localhost:3000/comments')
+    fetch(' http://localhost:3000/comments')
         .then(response => response.json())
         .then(comments => {
             
                 // All the comments are displayed from the db.json
                 comments.forEach((comment,index) => {
+                    userId=comment.userId
+
                     const commentContainer = document.createElement('div');
                     commentContainer.classList.add('comment-container');
 
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
             const seeUserDetailsButton = document.createElement('button');
             seeUserDetailsButton.textContent = 'See Details';
-            seeUserDetailsButton.addEventListener('click', () => showUserDetails());
+            seeUserDetailsButton.addEventListener('click', () => showUserDetails(commentContainer));
     
             const optionsButton = document.createElement('button');
             optionsButton.textContent = 'Options';
@@ -59,11 +61,17 @@ document.addEventListener("DOMContentLoaded", function () {
             const optionsDiv= document.createElement('div');
             optionsDiv.classList.add('options');
 
+            const userDetails = document.createElement('div');
+            userDetails.id = 'user-details';
+
+           
             buttonsDiv.appendChild(likeButton);
             buttonsDiv.appendChild(seeUserDetailsButton);
             buttonsDiv.appendChild(optionsButton);
             buttonsDiv.appendChild(optionsDiv);
             commentContainer.appendChild(buttonsDiv);
+            commentContainer.appendChild(userDetails);
+            
     
             // Add 'show' class to make options div visible
             buttonsDiv.classList.add('show');
@@ -74,8 +82,26 @@ document.addEventListener("DOMContentLoaded", function () {
             const buttonsDiv = commentContainer.querySelector('.options');
             buttonsDiv.remove();
         }
-    })
-    function likeComment(button, event) {
+        function showUserDetails(comment,commentContainer) {
+            fetch(`http://localhost:3000/user`)
+                .then(response => response.json())
+                .then(users => { console.log(users)
+                    const user = users.find(user => user.Id === comment.Id);
+                    if (user) {
+                    userDetails=document.querySelector('#user-details')
+                        userDetails.innerHTML = `
+                            <p>User Details:</p>
+                            <p>Name: ${user.name}</p>
+                            <p>Email: ${user.email}</p>
+                        `;
+                     
+                    }
+                
+                
+            })
+        } 
+   
+       function likeComment(button, event) {
         // Toggle the 'liked' class on the button
         button.classList.toggle('liked');
 
@@ -90,7 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const markAsReadButton = document.createElement('button');
         markAsReadButton.textContent = 'Mark as Read';
-        markAsReadButton.addEventListener('click', () => markAsRead(commentContainer));
+        markAsReadButton.addEventListener('click', (event) => { 
+            event.stopPropagation()
+            markAsRead(commentContainer)});
 
         optionsDiv.appendChild(deleteButton);
         optionsDiv.appendChild(markAsReadButton);
@@ -104,22 +132,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     function markAsRead(commentContainer) {
-       
-        commentContainer.querySelector('p').add('read-comment');
+    
+        const commentText = commentContainer.querySelector('p');
+        commentText.classList.add('read-comment');
     }
-    function showUserDetails() {
-        const userDetails=document.querySelector('#user-details')
-        fetch(`https://jsonplaceholder.typicode.com/users`)
-            .then(response=>response.json())
-            .then(users=>{
-            userDetails.innerHTML = `
-                <p>User Details:</p>
-                <p>Name: ${users.name}</p>
-                <p>Email: ${users.email}</p>
-                <p>Phone: ${users.phone}</p>
-            `;
-                })
-
-    }
+})
 
     
