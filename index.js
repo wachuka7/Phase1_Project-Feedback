@@ -92,10 +92,7 @@ function createCommentElement(comment) {
 function toggleComment(commentContainer, comment) {
   // the function make the comment turn grey
   commentContainer.classList.toggle("clicked");
-  // the toggle comment function makes the buttons appear and disappear
-
 }
-
 function showButtons(commentContainer, comment, userDetails) {
   const buttonsDiv = document.createElement("div");
   buttonsDiv.classList.add("options");
@@ -184,18 +181,6 @@ function showUserDetails(comment,userDetails) {
   userDetails.classList.toggle("show");
 }
 
-
-
-
-// function hideButtonsAndUserDetails(buttons, userDetails) {
-//     if (buttons) {
-//       buttons.remove();
-//     }
-  
-//     if (userDetails && userDetails.classList.contains("show")) {
-//       userDetails.classList.remove("show");
-//     }
-  // }
 function likeComment(button, event) {
   // Toggle the 'liked' class on the button
   button.classList.toggle("liked");
