@@ -177,8 +177,10 @@ function showButtons(commentContainer, comment, userDetails) {
   buttonsDiv.appendChild(replyButton);
   buttonsDiv.appendChild(optionsButton);
   buttonsDiv.appendChild(optionsDiv);
+  
+  commentContainer.appendChild(replyInput)
   commentContainer.appendChild(buttonsDiv);
-  commentContainer.appendChild(replyInput);
+  ;
 
   buttonsDiv.classList.add("show");
 }
