@@ -61,7 +61,9 @@ button {
 .comment-container .reply-input.show {
     display: block;
 }
-
+.comment-container.clicked .user-details.show {
+    display: none;
+}
 .comment-container .reply-input {
     display: none;
 }
@@ -69,3 +71,19 @@ button[disabled] {
     opacity: 0.5;
     pointer-events: none;
   }
+  .user-details {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.see-details-button {
+    opacity: 1;  
+    pointer-events: auto; 
+} 
+.see-details-button.show-details {
+    opacity: 0.5; 
+    pointer-events: none;  
+}
