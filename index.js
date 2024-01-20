@@ -13,25 +13,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     commentContainer.appendChild(commentElement)
                     commentsList.appendChild(commentContainer)
+                    //when clicked, the comment displays the buttons and turns grey
                     commentElement.addEventListener('click', () => toggleComment(commentContainer,comment));
-
-                 
-                       
+  
                     })      
     })
     })
-        // .catch(error => {
-        //     console.error('Error fetching comments:', error);
-        //     commentsList.textContent = 'Error fetching comments.';
-        // })
+       
         function toggleComment(commentContainer,comment) {
-            // Toggle the 'clicked' class on the commentContainer
+            // the function make the comment turn grey
+            commentContainer.classList.toggle('clicked');
+            // the toggle comment function makes the buttons appear and disappear
             const buttons = commentContainer.querySelector('.options');
             const buttonsVisible = buttons && buttons.classList.contains('show');
-        
-            // Toggle the 'clicked' class on the commentContainer
-            commentContainer.classList.toggle('clicked');
-            
+                 
             // Show or hide options based on the visibility of buttons
             if (buttonsVisible) {
                 hideButtons(commentContainer);
@@ -39,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 showButtons(commentContainer, comment);
             }
         }
-    
+
         function showButtons(commentContainer, comment) {
             const buttonsDiv = document.createElement('div');
             buttonsDiv.classList.add('options');
@@ -54,19 +49,37 @@ document.addEventListener("DOMContentLoaded", function () {
     
             const optionsButton = document.createElement('button');
             optionsButton.textContent = 'Options';
-            optionsButton.addEventListener('click', (event) => {
-              showOptions(optionsButton, commentContainer)})
+            optionsButton.addEventListener('click', () => toggleOptions(optionsDiv))
   
             const optionsDiv= document.createElement('div');
             optionsDiv.classList.add('options');
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                deleteComment(commentContainer);
+            });
+
+            const markAsReadButton = document.createElement('button');
+            markAsReadButton.textContent = 'Mark as Read';
+            markAsReadButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                markAsRead(commentContainer);
+            });
+
+            deleteButton.classList.add('show');
+            markAsReadButton.classList.add('show');
+
+            optionsDiv.appendChild(deleteButton);
+            optionsDiv.appendChild(markAsReadButton);
             
             buttonsDiv.appendChild(likeButton);
             buttonsDiv.appendChild(seeUserDetailsButton);
             buttonsDiv.appendChild(optionsButton);
             buttonsDiv.appendChild(optionsDiv);
             commentContainer.appendChild(buttonsDiv);
-            commentContainer.appendChild(userDetails);
-           
+                   
     
            
             buttonsDiv.classList.add('show');
@@ -100,24 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Stop the event from propagating to prevent clicking the comment triggering this event
         event.stopPropagation();
     }
-    function showOptions(optionsDiv, commentContainer){
-        
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', (event) => {
-          event.stopPropagation()
-          deleteComment(commentContainer)});
-       
-  
-        const markAsReadButton = document.createElement('button');
-        markAsReadButton.textContent = 'Mark as Read';
-        markAsReadButton.addEventListener('click', (event) => { 
-            event.stopPropagation()
-            markAsRead(commentContainer)});
-  
-        optionsDiv.appendChild(deleteButton);
-        optionsDiv.appendChild(markAsReadButton);
-        optionsDiv.classList.add('show');
+    function toggleOptions(optionsDiv){
+        optionsDiv.classList.toggle('show') 
         
     }
     function deleteComment(commentContainer, event) {
@@ -126,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (confirmDelete) {
             commentContainer.remove();
         }
-        event.stopPropagation()
+        
     }
     function markAsRead(commentContainer) {
     
