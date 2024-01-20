@@ -13,9 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const userDetails = document.createElement("div");
         userDetails.classList.add("comment-container");
 
-
         commentContainer.appendChild(commentElement);
-        commentContainer.appendChild(userDetails)
+        commentContainer.appendChild(userDetails);
         commentsList.appendChild(commentContainer);
 
         //when clicked, the comment displays the buttons and turns grey
@@ -31,17 +30,20 @@ function toggleComment(commentContainer, comment) {
   commentContainer.classList.toggle("clicked");
   // the toggle comment function makes the buttons appear and disappear
   const buttons = commentContainer.querySelector(".options");
+  const userDetails = commentContainer.querySelector(".user-details");
+
   const buttonsVisible = buttons && buttons.classList.contains("show");
+  const userDetailsVisible=userDetails && userDetails.classList.contains('show')
 
   // Show or hide options based on the visibility of buttons
-  if (buttonsVisible) {
-    hideButtons(commentContainer);
+  if (buttonsVisible ||userDetailsVisible) {
+    hideButtonsAndUserDetails(commentContainer, buttons, userDetails);
   } else {
-    showButtons(commentContainer, comment);
+    showButtons(commentContainer, comment, userDetails);
   }
 }
 
-function showButtons(commentContainer, comment,userDetails) {
+function showButtons(commentContainer, comment, userDetails) {
   const buttonsDiv = document.createElement("div");
   buttonsDiv.classList.add("options");
 
@@ -52,17 +54,17 @@ function showButtons(commentContainer, comment,userDetails) {
   );
 
   const seeUserDetailsButton = document.createElement("button");
-seeUserDetailsButton.textContent = "See Details";
-seeUserDetailsButton.addEventListener("click", function handleClick() {
-  showUserDetails(comment, commentContainer, userDetails);
+  seeUserDetailsButton.textContent = "See Details";
+  seeUserDetailsButton.addEventListener("click", function handleClick() {
+    showUserDetails(comment, commentContainer, userDetails);
 
-  // Remove the click event listener
-  seeUserDetailsButton.removeEventListener("click", handleClick);
+    // Remove the click event listener
+    seeUserDetailsButton.removeEventListener("click", handleClick);
 
-  // Apply styles to make the button transparent and unclickable
-  seeUserDetailsButton.style.opacity = "0.5";
-  seeUserDetailsButton.style.pointerEvents = "none";
-});
+    // Apply styles to make the button transparent and unclickable
+    seeUserDetailsButton.style.opacity = "0.5";
+    seeUserDetailsButton.style.pointerEvents = "none";
+  });
 
   const replyInput = document.createElement("input");
   replyInput.type = "text";
@@ -113,14 +115,7 @@ seeUserDetailsButton.addEventListener("click", function handleClick() {
   buttonsDiv.classList.add("show");
 }
 
-function hideButtons(commentContainer) {
-  // Find and remove the options div from the comment container
-  const buttonsDiv = commentContainer.querySelector(".options");
-  buttonsDiv.remove();
-}
-
-
-function showUserDetails(comment,userDetails) {
+function showUserDetails(comment, userDetails) {
 
   const nameElement = document.createElement("p");
   nameElement.textContent = comment.name;
@@ -133,11 +128,16 @@ function showUserDetails(comment,userDetails) {
   userDetails.appendChild(emailElement);
   userDetails.appendChild(phoneElement);
   userDetails.classList.add("show");
-
 }
-
+function hideButtonsAndUserDetails(buttons, userDetails) {
+    if (buttons) {
+      buttons.remove();
+    }
   
-
+    if (userDetails && userDetails.classList.contains("show")) {
+      userDetails.classList.remove("show");
+    }
+  }
 function likeComment(button, event) {
   // Toggle the 'liked' class on the button
   button.classList.toggle("liked");
@@ -171,12 +171,11 @@ function toggleReply(replyInput, commentContainer) {
 
 function toggleOptions(optionsDiv) {
   optionsDiv.classList.toggle("show");
-  
 }
 function hideReplies(commentContainer) {
-    // Find and remove reply elements from the comment container
-    const replyElements = commentContainer.querySelectorAll('.reply-text');
-    replyElements.forEach(replyElement => replyElement.remove());
+  // Find and remove reply elements from the comment container
+  const replyElements = commentContainer.querySelectorAll(".reply-text");
+  replyElements.forEach((replyElement) => replyElement.remove());
 }
 function deleteComment(commentContainer, event) {
   const confirmDelete = confirm("Do you want to delete this comment?");
