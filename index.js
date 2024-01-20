@@ -78,37 +78,22 @@ function createCommentElement(comment) {
   commentElement.textContent = comment.body;
 
   const userDetails = document.createElement("div");
-  userDetails.classList.add("comment-container");
+  userDetails.classList.add("user-details");
 
   commentContainer.appendChild(commentElement);
   commentContainer.appendChild(userDetails);
-
+  showButtons(commentContainer, comment, userDetails)
   // When clicked, the comment displays the buttons and turns grey
   commentElement.addEventListener("click", () =>
     toggleComment(commentContainer, comment)
   );
-
   return commentContainer; // Return the created comment container
 }
-
-
 function toggleComment(commentContainer, comment) {
-  
   // the function make the comment turn grey
   commentContainer.classList.toggle("clicked");
   // the toggle comment function makes the buttons appear and disappear
-  const buttons = commentContainer.querySelector(".options");
-  const userDetails = commentContainer.querySelector(".user-details");
 
-  const buttonsVisible = buttons && buttons.classList.contains("show");
-  const userDetailsVisible=userDetails && userDetails.classList.contains('show')
-
-  // Show or hide options based on the visibility of buttons
-  if (buttonsVisible ||userDetailsVisible) {
-    hideButtonsAndUserDetails(commentContainer, buttons, userDetails);
-  } else {
-    showButtons(commentContainer, comment, userDetails);
-  }
 }
 
 function showButtons(commentContainer, comment, userDetails) {
@@ -124,14 +109,7 @@ function showButtons(commentContainer, comment, userDetails) {
   const seeUserDetailsButton = document.createElement("button");
   seeUserDetailsButton.textContent = "See Details";
   seeUserDetailsButton.addEventListener("click", function handleClick() {
-    showUserDetails(comment, commentContainer, userDetails);
-
-    // Remove the click event listener
-    seeUserDetailsButton.removeEventListener("click", handleClick);
-
-    // Apply styles to make the button transparent and unclickable
-    seeUserDetailsButton.style.opacity = "0.5";
-    seeUserDetailsButton.style.pointerEvents = "none";
+    showUserDetails(comment,userDetails);
   });
 
   const replyInput = document.createElement("input");
@@ -185,7 +163,12 @@ function showButtons(commentContainer, comment, userDetails) {
   buttonsDiv.classList.add("show");
 }
 
-function showUserDetails(comment, userDetails) {
+function showUserDetails(comment,userDetails) {
+  // Remove any existing child element
+
+  while (userDetails.firstChild) {
+    userDetails.removeChild(userDetails.firstChild);
+  }
 
   const nameElement = document.createElement("p");
   nameElement.textContent = comment.name;
@@ -197,17 +180,22 @@ function showUserDetails(comment, userDetails) {
   userDetails.appendChild(nameElement);
   userDetails.appendChild(emailElement);
   userDetails.appendChild(phoneElement);
-  userDetails.classList.add("show");
+ 
+  userDetails.classList.toggle("show");
 }
-function hideButtonsAndUserDetails(buttons, userDetails) {
-    if (buttons) {
-      buttons.remove();
-    }
+
+
+
+
+// function hideButtonsAndUserDetails(buttons, userDetails) {
+//     if (buttons) {
+//       buttons.remove();
+//     }
   
-    if (userDetails && userDetails.classList.contains("show")) {
-      userDetails.classList.remove("show");
-    }
-  }
+//     if (userDetails && userDetails.classList.contains("show")) {
+//       userDetails.classList.remove("show");
+//     }
+  // }
 function likeComment(button, event) {
   // Toggle the 'liked' class on the button
   button.classList.toggle("liked");
