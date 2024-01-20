@@ -10,9 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
         commentContainer.classList.add("comment-container");
         const commentElement = document.createElement("p");
         commentElement.textContent = comment.body;
+        const userDetails = document.createElement("div");
+        userDetails.classList.add("comment-container");
+
 
         commentContainer.appendChild(commentElement);
+        commentContainer.appendChild(userDetails)
         commentsList.appendChild(commentContainer);
+
         //when clicked, the comment displays the buttons and turns grey
         commentElement.addEventListener("click", () =>
           toggleComment(commentContainer, comment)
@@ -36,7 +41,7 @@ function toggleComment(commentContainer, comment) {
   }
 }
 
-function showButtons(commentContainer, comment) {
+function showButtons(commentContainer, comment,userDetails) {
   const buttonsDiv = document.createElement("div");
   buttonsDiv.classList.add("options");
 
@@ -47,10 +52,17 @@ function showButtons(commentContainer, comment) {
   );
 
   const seeUserDetailsButton = document.createElement("button");
-  seeUserDetailsButton.textContent = "See Details";
-  seeUserDetailsButton.addEventListener("click", () =>
-    showUserDetails(comment, commentContainer)
-  );
+seeUserDetailsButton.textContent = "See Details";
+seeUserDetailsButton.addEventListener("click", function handleClick() {
+  showUserDetails(comment, commentContainer, userDetails);
+
+  // Remove the click event listener
+  seeUserDetailsButton.removeEventListener("click", handleClick);
+
+  // Apply styles to make the button transparent and unclickable
+  seeUserDetailsButton.style.opacity = "0.5";
+  seeUserDetailsButton.style.pointerEvents = "none";
+});
 
   const replyInput = document.createElement("input");
   replyInput.type = "text";
@@ -107,7 +119,9 @@ function hideButtons(commentContainer) {
   buttonsDiv.remove();
 }
 
-function showUserDetails(comment, commentContainer) {
+
+function showUserDetails(comment,userDetails) {
+
   const nameElement = document.createElement("p");
   nameElement.textContent = comment.name;
   const emailElement = document.createElement("p");
@@ -115,10 +129,14 @@ function showUserDetails(comment, commentContainer) {
   const phoneElement = document.createElement("p");
   phoneElement.textContent = comment.phone;
 
-  commentContainer.appendChild(nameElement);
-  commentContainer.appendChild(emailElement);
-  commentContainer.appendChild(phoneElement);
+  userDetails.appendChild(nameElement);
+  userDetails.appendChild(emailElement);
+  userDetails.appendChild(phoneElement);
+  userDetails.classList.add("show");
+
 }
+
+  
 
 function likeComment(button, event) {
   // Toggle the 'liked' class on the button

@@ -65,3 +65,7 @@ button {
 .comment-container .reply-input {
     display: none;
 }
+button[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
