@@ -57,3 +57,11 @@ button {
 .read-comment {
     opacity: 0.5;
 }
+.comment-container .options.show,
+.comment-container .reply-input.show {
+    display: block;
+}
+
+.comment-container .reply-input {
+    display: none;
+}
