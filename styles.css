@@ -9,25 +9,50 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-#login-container {
-  display: none;
-}
-.robot-form {
-  display: none;
-}
-.robot-form.show {
-  display: block;
-}
-.hidden {
-  display: none;
-}
-.visible {
-  display: block;
-}
 #password-label {
   color: white;
   font-size: larger;
+
 }
+#login-form {
+  display: block;
+  max-width: 300px; /* Adjust the width as needed */
+  margin: auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#username-label,
+#password-label {
+  display: block;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+#username,
+#password {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #2b7bb9;
+}
+
 #username-label {
   color: #fff;
   font-size: larger;
@@ -43,7 +68,7 @@ body {
   text-align: center; 
   position: relative;
   flex-grow: 1; /* Grow to fill the remaining space */
-  display: flex;
+  display: none;
   flex-direction: column;
   overflow: hidden;
   height: auto;
