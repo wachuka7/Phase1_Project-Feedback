@@ -7,19 +7,17 @@
     <link rel="stylesheet" href="styles.css">
     
 </head>
+<!-- Update your HTML body with the changes below -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machines Page</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
 <body>
-  <div class="login-container">
-    <h1>Login</h1>
-    <form id="login-form" onsubmit="return validateLogin()">
-      <label for="username" id="username-label">Username:</label>
-      <input type="text" id="username" name="username" required>
-      
-      <label for="password" id="password-label">Password:</label>
-      <input type="password" id="password" name="password" required>
-      
-      <button type="submit">Sign In</button>
-    </form>
-  </div>
   <div class="post-container">
     <h1>Unleashing Elegance</h1>
     <img src="car wallpaper.jpeg" alt="This is my car">
@@ -27,16 +25,24 @@
     <input type="checkbox" id="commentsToggle" class="comments-toggle">
     <form id="comment-form">
       <input type="text" id="comment-input" placeholder="Add a new comment...">
-      <button type="submit">Add Comment</button>
+      <button type="button" onclick="showLoginForm()">Add Comment</button>
+      <div class="login-container" id="login-container">
+        <h1>Prove You're Not a Robot</h1>
+        <form id="robot-form" class="robot-form hidden">
+          <label for="robot-code">Code:</label>
+          <input type="text" id="robot-code" name="robot-code" required>
+          <button type="button" onclick="validateRobotCode()">Submit</button>
+        </form>
+      </div>
     </form>
     <div id="comments-list" class="comments">
       <div class="comment-container">
-       
+        <!-- Comments will be added dynamically here -->
       </div>
     </div>
-  </div> 
-    <script src="index.js"></script>   
+  </div>
+  <script src="index.js"></script>
 </body>
-
+</html>
 
 </html>

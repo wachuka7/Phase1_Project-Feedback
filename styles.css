@@ -12,6 +12,18 @@ body {
 #login-container {
   display: none;
 }
+.robot-form {
+  display: none;
+}
+.robot-form.show {
+  display: block;
+}
+.hidden {
+  display: none;
+}
+.visible {
+  display: block;
+}
 #password-label {
   color: white;
   font-size: larger;
