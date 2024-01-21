@@ -1,83 +1,88 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const signinContainer = document.querySelector('.login-container');
-  const signinForm = document.getElementById('login-form');
+  const loginContainer = document.querySelector('.login-container');
   const mainPage = document.querySelector('.post-container');
-//this page needs someone to sign in an now see the post
+  const commentsIcon = document.querySelector('.comments-icon');
+  const commentsList = document.querySelector("#comments-list");
+  const commentInput = document.getElementById("comment-input");
+  const signinForm = document.getElementById('login-form');
+
+  // Initially hide the login form
+  loginContainer.style.display = 'none';
+
   function signIn() {
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
-//I have set the username and password
+
     const username = usernameInput.value;
     const password = passwordInput.value;
 
     if (username === '1234' && password === '1234') {
-      signinContainer.style.display = 'none';
+      loginContainer.style.display = 'none';
       mainPage.style.display = 'block';
     } else {
       alert('Invalid username or password. Please try again.');
     }
   }
-//after inputing the sign-in detail one can now see the posts
+
   signinForm.addEventListener('submit', function (event) {
     event.preventDefault();
     signIn();
   });
-});
-
-  const commentsIcon = document.querySelector('.comments-icon');
-  const commentsList = document.querySelector("#comments-list");
-//at first the comments are not dispayed, untill the comment icon is clicked
 
   commentsList.style.display = 'none';
 
   commentsIcon.addEventListener('click', () => {
-    // the event listenner toggles the display of comments when the icon is clicked
-    //the comment appear and disappear
     commentsList.style.display = commentsList.style.display === 'none' ? 'block' : 'none';
   });
 
-const commentInput = document.getElementById("comment-input");
-const commentForm = document.getElementById("comment-form");
+  const showLoginForm = function () {
+    // Show login form when comment input is clicked
+    loginContainer.style.display = 'block';
+  };
 
-// the form has an event listene rfor submit where one can submit details
-commentForm.addEventListener("submit", function (event) {
-  event.preventDefault(); // Prevent the default form submission behavior
+  commentInput.addEventListener('click', showLoginForm);
 
-  const newCommentText = commentInput.value.trim();
-  if (newCommentText !== "") {
-    // Create a new comment object to send to the server
-    const newComment = {
-      body: newCommentText,
-    };
-    // Post the new comment to the server
-    fetch("http://localhost:3000/comments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newComment),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
+  const commentForm = document.getElementById("comment-form");
+
+  commentForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const newCommentText = commentInput.value.trim();
+    if (newCommentText !== "") {
+      // Create a new comment object to send to the server
+      const newComment = {
+        body: newCommentText,
+      };
+      // Post the new comment to the server
+      fetch("http://localhost:3000/comments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newComment),
       })
-      .then((createdComment) => {
-        // Add the new comment to the UI at the top
-        const commentContainer = createCommentElement(createdComment);
-        commentsList.append(commentContainer);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((createdComment) => {
+          // Add the new comment to the UI at the top
+          const commentContainer = createCommentElement(createdComment);
+          commentsList.appendChild(commentContainer);
 
-        // Clear the input field after adding a comment
-        commentInput.value = "";
-      })
-      .catch((error) => {
-        console.error("Error posting comment:", error.message);
-        // Display an error message to the user
-        alert("Error posting comment. Please try again later.");
-      });
-  }
-});
+          // Clear the input field after adding a comment
+          commentInput.value = "";
+        })
+        .catch((error) => {
+          console.error("Error posting comment:", error.message);
+          // Display an error message to the user
+          alert("Error posting comment. Please try again later.");
+        });
+    }
+  });
+
 
 // Fetch existing comments from the db.json and display them
 fetch("http://localhost:3000/comments")
@@ -102,6 +107,7 @@ fetch("http://localhost:3000/comments")
       "Error fetching comments. Please try again later.";
     commentsList.appendChild(errorMessage);
   });
+})
   //create the comment element 
 function createCommentElement(comment) {
   const commentContainer = document.createElement("div");
