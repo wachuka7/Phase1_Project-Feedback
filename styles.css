@@ -9,11 +9,12 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+#login-container {
+  display: none;
+}
 #password-label {
   color: white;
   font-size: larger;
-
-
 }
 #username-label {
   color: #fff;
@@ -30,7 +31,7 @@ body {
   text-align: center; 
   position: relative;
   flex-grow: 1; /* Grow to fill the remaining space */
-  display: none;
+  display: flex;
   flex-direction: column;
   overflow: hidden;
   height: auto;
