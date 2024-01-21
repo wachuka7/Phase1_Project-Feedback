@@ -1,20 +1,45 @@
 document.addEventListener('DOMContentLoaded', function () {
+  const signinContainer = document.querySelector('.login-container');
+  const signinForm = document.getElementById('login-form');
+  const mainPage = document.querySelector('.post-container');
+//this page needs someone to sign in an now see the post
+  function signIn() {
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+//I have set the username and password
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+
+    if (username === '1234' && password === '1234') {
+      signinContainer.style.display = 'none';
+      mainPage.style.display = 'block';
+    } else {
+      alert('Invalid username or password. Please try again.');
+    }
+  }
+//after inputing the sign-in detail one can now see the posts
+  signinForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    signIn();
+  });
+});
+
   const commentsIcon = document.querySelector('.comments-icon');
   const commentsList = document.querySelector("#comments-list");
+//at first the comments are not dispayed, untill the comment icon is clicked
 
-  // Initially hide comments
   commentsList.style.display = 'none';
 
   commentsIcon.addEventListener('click', () => {
-    // Toggle the display of comments when the icon is clicked
+    // the event listenner toggles the display of comments when the icon is clicked
+    //the comment appear and disappear
     commentsList.style.display = commentsList.style.display === 'none' ? 'block' : 'none';
   });
-});
-const commentsList = document.querySelector("#comments-list");
+
 const commentInput = document.getElementById("comment-input");
 const commentForm = document.getElementById("comment-form");
 
-// Event listener for form submission
+// the form has an event listene rfor submit where one can submit details
 commentForm.addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent the default form submission behavior
 
@@ -54,7 +79,7 @@ commentForm.addEventListener("submit", function (event) {
   }
 });
 
-// Fetch existing comments and display them
+// Fetch existing comments from the db.json and display them
 fetch("http://localhost:3000/comments")
   .then((response) => {
     if (!response.ok) {
@@ -77,6 +102,7 @@ fetch("http://localhost:3000/comments")
       "Error fetching comments. Please try again later.";
     commentsList.appendChild(errorMessage);
   });
+  //create the comment element 
 function createCommentElement(comment) {
   const commentContainer = document.createElement("div");
   commentContainer.classList.add("comment-container");
@@ -89,12 +115,13 @@ function createCommentElement(comment) {
 
   commentContainer.appendChild(commentElement);
   commentContainer.appendChild(userDetails);
+  //the function is declared below for the buttons
   showButtons(commentContainer, comment, userDetails);
-  // When clicked, the comment displays the buttons and turns grey
+  // When clicked, the comment turns grey
   commentElement.addEventListener("click", () =>
     toggleComment(commentContainer, comment)
   );
-  return commentContainer; // Return the created comment container
+  return commentContainer; 
 }
 function toggleComment(commentContainer) {
   // the function make the comment turn grey
@@ -103,13 +130,13 @@ function toggleComment(commentContainer) {
 function showButtons(commentContainer, comment, userDetails) {
   const buttonsDiv = document.createElement("div");
   buttonsDiv.classList.add("options");
-
+//click event listener for liking the comment
   const likeButton = document.createElement("button");
   likeButton.textContent = "Like";
   likeButton.addEventListener("click", (event) =>
     likeComment(likeButton, event)
   );
-
+//toggle userdetails when clicked
   const seeUserDetailsButton = document.createElement("button");
   seeUserDetailsButton.textContent = "See Details";
   seeUserDetailsButton.addEventListener("click", function handleClick() {
@@ -183,18 +210,17 @@ function showUserDetails(comment, userDetails) {
 
   userDetails.classList.toggle("show");
 }
-
 function likeComment(button, event) {
   // Toggle the 'liked' class on the button
   button.classList.toggle("liked");
-
-  // Stop the event from propagating to prevent clicking the comment triggering this event
+  //to stop the like comment from triggering other events
+  
   event.stopPropagation();
 }
 function toggleReply(replyInput, commentContainer) {
   replyInput.classList.toggle("show");
 
-  // Check if the input is visible, then focus on it
+  // Check if the input is visible
   if (replyInput.classList.contains("show")) {
     replyInput.focus();
   } else {
@@ -206,20 +232,20 @@ function toggleReply(replyInput, commentContainer) {
       replyElement.textContent = replyText;
       replyElement.classList.add("reply-text");
 
-      // Append the reply below the comment
+      // I want the  reply to appear below the comment
       commentContainer.appendChild(replyElement);
 
-      // Clear the input field after adding a reply
+      // Clearing the input field after adding a reply
       replyInput.value = "";
     }
   }
 }
-
+//the optionsDiv is toggled when the options  button is clicked
 function toggleOptions(optionsDiv) {
   optionsDiv.classList.toggle("show");
 }
 function hideReplies(commentContainer) {
-  // Find and remove reply elements from the comment container
+  // this finds and removes reply elements from the comment container
   const replyElements = commentContainer.querySelectorAll(".reply-text");
   replyElements.forEach((replyElement) => replyElement.remove());
 }
@@ -230,6 +256,7 @@ function deleteComment(commentContainer, event) {
     commentContainer.remove();
   }
 }
+//the comment turns grey as defined in the css
 function markAsRead(commentContainer) {
   const commentText = commentContainer.querySelector("p");
   commentText.classList.add("read-comment");

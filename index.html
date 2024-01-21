@@ -8,24 +8,33 @@
     
 </head>
 <body>
-    <div class="post-container">
-        <h1>For the Love of SUVs</h1>
-        <img src="car wallpaper.jpeg" alt="This is my car">
-        <form id="comment-form">
-          <input type="text" id="comment-input" placeholder="Add a new comment...">
-          <button type="submit">Add Comment</button>
-        </form>
-    
-        <div id="comments-list">
-          <div class="comment-container">
-            
-        </div>
+  <div class="login-container">
+    <h1>Login</h1>
+    <form id="login-form" onsubmit="return validateLogin()">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      
+      <button type="submit">Sign In</button>
+    </form>
+  </div>
+  <div class="post-container">
+    <h1>For the Love of SUVs</h1>
+    <img src="car wallpaper.jpeg" alt="This is my car">
+    <label for="commentsToggle" class="comments-icon">&#128172;</label>
+    <input type="checkbox" id="commentsToggle" class="comments-toggle">
+    <form id="comment-form">
+      <input type="text" id="comment-input" placeholder="Add a new comment...">
+      <button type="submit">Add Comment</button>
+    </form>
+    <div id="comments-list" class="comments">
+      <div class="comment-container">
+       
+      </div>
     </div>
-
-    
-        
-    <script src="index.js"></script>
-  
-    
+  </div> 
+    <script src="index.js"></script>   
 </body>
 </html>
