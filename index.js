@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const mainPage = document.querySelector(".post-container");
 })
-
+//fetchiing data from a public API for the post
 fetch("https://source.unsplash.com/featured/?car")
   .then((response) => {
     document.getElementById("carImage").src = response.url;
@@ -11,7 +10,7 @@ fetch("https://source.unsplash.com/featured/?car")
   const carImage = document.getElementById("carImage");
   const nextImageButton = document.getElementById("nextImageButton");
   
-  // Array to store image URLs
+  // This is the array that store image URLs
   let imageUrls = [];
   
   // Function to fetch images and update the array
@@ -27,14 +26,14 @@ fetch("https://source.unsplash.com/featured/?car")
   fetchImages();
   
   nextImageButton.addEventListener("click", function () {
-    // Increment the current image index
+    // This is increment the current image index
     currentImageIndex++;
-  
+
     // If we've reached the end of the array, fetch more images
     if (currentImageIndex >= imageUrls.length) {
       fetchImages();
     } else {
-      // Display the next image
+      // Display the next image 
       carImage.src = imageUrls[currentImageIndex];
     }
   });
