@@ -1,5 +1,5 @@
 body {
-  background-image: url('car wallpaper.jpeg');
+  background-image: url('car image.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -8,6 +8,59 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+#carImage{
+  width: 100%;
+  height: 50vh;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  display: block;
+}
+
+#login-form {
+  display: block;
+  max-width: 300px; /* Adjust the width as needed */
+  margin: auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#username-label,
+#password-label {
+  display: block;
+  margin-bottom: 10px;
+  text-align: left;
+  color: rgb(9, 9, 9);
+  font-size: larger;
+}
+
+#username,
+#password {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.comments-icon{
+  color: black;
+}
+
+button[type="submit"]:hover {
+  background-color: #2b7bb9;
 }
 .login-container {
   max-width: 400px;
@@ -49,17 +102,6 @@ body {
   cursor: pointer;
   font-size: 16px;
 }
-.comments-icon{
-  color: black;
-}
-button[type="submit"] {
-  background-color: #3498db;
-  transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-  background-color: #2b7bb9;
-}
 .post-container {
   max-width: 600px;
   margin: 20px auto;
@@ -76,6 +118,7 @@ button[type="submit"]:hover {
   height: auto;
   top: 0%;
   width: 600px;
+
 }
 #comments-list {
   max-height: 300px;
@@ -92,22 +135,20 @@ button[type="submit"]:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   display: none;
   z-index: 1;
+
 }
 .comments-icon {
   position: relative;
   left: 10px;
   font-size: 32px;
-  color: #161717;
+  color: #fff; 
   cursor: pointer;
   z-index: 2;
   padding: 5px; 
   border-radius: 50%;
   transition: color 0.3s, transform 0.3s;
 }
-.comments-icon:hover {
-  transform: scale(1.1);
-  color: #3498db;
-}
+
 .post-container h1{
   font-family: 'Arial', sans-serif;
   font-size: 2.5em;
@@ -124,14 +165,15 @@ button[type="submit"]:hover {
   position: relative;
   width: 100%;
 }
+
 #comment-input {
   flex-grow: 1;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-right: 10px;
-  width: auto;
 }
+
 #comment-form button {
   background-color: #3498db;
   color: #fff;
@@ -144,16 +186,16 @@ button[type="submit"]:hover {
 #comment-form button:hover {
   background-color: #2b7bb9;
 }
-#carImage{
-  width: 100%;
-  height: 50vh;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  text-align: center;
-  display: block;
+.comments-icon{
+  color: black;
 }
+.comments-icon:hover {
+  transform: scale(1.1);
+  color: #3498db;
+}
+
 .comment-container{
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc; /* Add a thin border to separate comments */
   border-radius: 5px;
   padding: 0px;
   margin-bottom: 10px;
@@ -168,6 +210,14 @@ transition: transform 0.3s, margin 0.3s;
 margin: 5px;
 transform: scale(0.95);
 }
+
+.options {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background for buttons */
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
 .button {
   background-color: #3498db;
   color: #fff;
@@ -176,6 +226,7 @@ transform: scale(0.95);
   border-radius: 3px;
   cursor: pointer;
 }
+
 .user-details {
   display: none;
   margin-top: 10px;
@@ -194,26 +245,26 @@ transform: scale(0.95);
 .comment-container.clicked {
   background-color: lightgrey;
 }
+
 .options {
   display: none;
   flex-direction: row;
-  background-color: rgba(0, 0, 0, 0.5); 
-  border-radius: 5px;
-  padding: 5px;
-  margin-top: 5px;
 }
+
 .options.show {
   display: flex;
 }
+
 .options button {
   margin: 5px 0;
 }
+
 .read-comment {
   opacity: 0.5;
 }
 
 .comment-container .options.show,
-.comment-container  {
+.comment-container .reply-input.show {
   display: block;
 }
 
@@ -229,12 +280,7 @@ button[disabled] {
   opacity: 0.5;
   pointer-events: none;
 }
-.reply-input {
-  display: none;
-}
-.show-reply .reply-input {
-  display: block;
-}
+
 .show {
   display: block;
 }
