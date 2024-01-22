@@ -1,35 +1,43 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const signinContainer = document.querySelector(".login-container");
-  const signinForm = document.getElementById("login-form");
   const mainPage = document.querySelector(".post-container");
-  //this page needs someone to sign in an now see the post
-  function signIn() {
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    //I have set the username and password
-    const username = usernameInput.value;
-    const password = passwordInput.value;
-
-    if (username === "1234" && password === "1234") {
-      signinContainer.style.display = "none";
-      mainPage.style.display = "block";
-    } else {
-      alert("Invalid username or password. Please try again.");
-    }
-  }
-  //after inputing the sign-in detail one can now see the posts
-  signinForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    signIn();
-  });
-});
+})
 
 fetch("https://source.unsplash.com/featured/?car")
   .then((response) => {
     document.getElementById("carImage").src = response.url;
   })
   .catch((error) => console.error("Error fetching image:", error));
+  let currentImageIndex = 0;
+  const carImage = document.getElementById("carImage");
+  const nextImageButton = document.getElementById("nextImageButton");
+  
+  // Array to store image URLs
+  let imageUrls = [];
+  
+  // Function to fetch images and update the array
+  function fetchImages() {
+    fetch("https://source.unsplash.com/featured/?car")
+      .then((response) => {
+        imageUrls.push(response.url)
+        carImage.src = imageUrls[currentImageIndex];
+      })
+      .catch((error) => console.error("Error fetching image:", error));
+  }
 
+  fetchImages();
+  
+  nextImageButton.addEventListener("click", function () {
+    // Increment the current image index
+    currentImageIndex++;
+  
+    // If we've reached the end of the array, fetch more images
+    if (currentImageIndex >= imageUrls.length) {
+      fetchImages();
+    } else {
+      // Display the next image
+      carImage.src = imageUrls[currentImageIndex];
+    }
+  });
 const commentsIcon = document.querySelector(".comments-icon");
 const commentsList = document.querySelector("#comments-list");
 //at first the comments are not dispayed, untill the comment icon is clicked
@@ -48,6 +56,7 @@ const commentForm = document.getElementById("comment-form");
 
 // the form has an event listene rfor submit where one can submit details
 commentForm.addEventListener("submit", function (event) {
+  event.stopPropagation()
   event.preventDefault();
 
   const newCommentText = commentInput.value.trim();
