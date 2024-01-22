@@ -9,12 +9,12 @@
 </head>
 <body>
   <div class="login-container">
-    <h1>Login</h1>
+    <h2>Please Login Below to View the Post and Comments</h2>
     <form id="login-form" >
-      <label for="username" id="username-label">Username:</label>
+      <label for="username" id="username-label">Enter Username:</label>
       <input type="text" id="username" name="username" required>
       
-      <label for="password" id="password-label">Password:</label>
+      <label for="password" id="password-label"> Enter Password:</label>
       <input type="password" id="password" name="password" required>
       
       <button type="submit">Sign In</button>
@@ -22,9 +22,8 @@
   </div>
   <div class="post-container">
     <h1>Unleashing Elegance</h1>
-    <img src="car wallpaper.jpeg" alt="This is my car">
-    <label for="commentsToggle" class="comments-icon">&#128172;</label>
-    <input type="checkbox" id="commentsToggle" class="comments-toggle">
+    <img id="carImage" alt="This is my car">
+    <label for="commentsToggle" class="comments-icon">&#128172; View Comments</label>
     <form id="comment-form">
       <input type="text" id="comment-input" placeholder="Add a new comment...">
       <button type="submit">Add Comment</button>

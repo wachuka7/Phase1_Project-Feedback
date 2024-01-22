@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const passwordInput = document.getElementById('password');
     const username = usernameInput.value;
     const password = passwordInput.value;
-
+//the fake username and password for the page is 1234
     if (username === '1234' && password === '1234') {
       signinContainer.style.display = 'none';
       mainPage.style.display = 'block';
@@ -16,16 +16,20 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('Invalid username or password. Please try again.');
     }
   }
-
   signinForm.addEventListener('submit', function (event) {
     event.preventDefault();
+    //the signin function is called after the submit button is clicked
     signIn();
   });
-
   const commentsIcon = document.querySelector('.comments-icon');
   const commentsList = document.querySelector("#comments-list");
-  commentsList.style.display = 'none';
-
+  fetch('https://source.unsplash.com/featured/?car')
+    .then(response => {
+      document.getElementById('carImage').src = response.url;
+    })
+    .catch(error => console.error('Error fetching image:', error));
+  
+    commentsList.style.display = 'none';// initially the user will not see the comments, until they click the comments icon
   commentsIcon.addEventListener('click', () => {
     commentsList.style.display = commentsList.style.display === 'none' ? 'block' : 'none';
   });
