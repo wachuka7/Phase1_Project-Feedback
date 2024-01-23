@@ -39,7 +39,7 @@ fetch("https://source.unsplash.com/featured/?car")
   });
 const commentsIcon = document.querySelector(".comments-icon");
 const commentsList = document.querySelector("#comments-list");
-//at first the comments are not dispayed, untill the comment icon is clicked
+//at first the comments are not dispayed, until the comment icon is clicked
 
 commentsList.style.display = "none";
 
